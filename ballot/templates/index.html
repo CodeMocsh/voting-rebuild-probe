@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{option_a}} vs {{option_b}}!</title>
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <link rel='stylesheet' href="/static/stylesheets/style.css" />
+  </head>
+  <body>
+    <div id="content-container">
+      <div id="content-container-center">
+        <h3>{{option_a}} vs {{option_b}}!</h3>
+        <form id="choice" name='form' method="POST" action="/">
+          {%- for key, label in (("a", option_a), ("b", option_b)) %}
+          {%- if vote == key %}
+          <button id="{{key}}" type="submit" name="vote" class="{{key}}" value="{{key}}" disabled>{{label}} <span class="tick" aria-label="chosen">&#10004;</span></button>
+          {%- elif vote in ("a", "b") %}
+          <button id="{{key}}" type="submit" name="vote" class="{{key}}" value="{{key}}" style="opacity:0.5">{{label}}</button>
+          {%- else %}
+          <button id="{{key}}" type="submit" name="vote" class="{{key}}" value="{{key}}">{{label}}</button>
+          {%- endif %}
+          {%- endfor %}
+        </form>
+        <div id="tip">
+          (Tip: you can change your vote)
+        </div>
+        <div id="hostname">
+          Processed by container ID {{hostname}}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
