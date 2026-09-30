@@ -1,0 +1,152 @@
+id: urn:estate-graph:model:open
+name: estate_open
+prefixes:
+  linkml: https://w3id.org/linkml/
+  eg: 'urn:estate-graph:model:'
+imports:
+- linkml:types
+- actions
+- capabilities
+- cases
+- rules
+- state
+default_prefix: eg
+default_range: string
+classes:
+  Open:
+    description: What the code cannot settle, with the assumption to proceed on.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      about:
+        any_of:
+        - range: Estate
+        - range: Type
+        - range: Attribute
+        - range: Input
+        - range: Action
+        - range: Trigger
+        - range: Update
+        - range: Transition
+        - range: Output
+        - range: Rule
+        - range: Calculation
+        - range: Capability
+        - range: Journey
+        - range: JourneyStep
+        - range: Case
+        - range: CaseStep
+        - range: Plumbing
+        inlined: false
+        description: the record it is about
+      citation:
+        range: citation
+        description: the lines it is about, when it is about no record
+      reason:
+        range: OpenReason
+        required: true
+      statement:
+        required: true
+      assumption: {}
+      options:
+        multivalued: true
+      resolution:
+        range: Resolution
+        description: what resolving it found; absent while nobody has tried
+      resolved_by:
+        range: citation
+        multivalued: true
+        description: 'the evidence that settled it: a test, a document, a probe, a recording'
+    rules:
+    - description: an open is about a record or a line
+      postconditions:
+        any_of:
+        - slot_conditions:
+            about:
+              value_presence: PRESENT
+        - slot_conditions:
+            citation:
+              value_presence: PRESENT
+    - description: a confirmed question cites what confirmed it
+      preconditions:
+        slot_conditions:
+          resolution:
+            equals_string: confirmed
+      postconditions:
+        slot_conditions:
+          resolved_by:
+            value_presence: PRESENT
+    - description: a corrected question cites what corrected it
+      preconditions:
+        slot_conditions:
+          resolution:
+            equals_string: corrected
+      postconditions:
+        slot_conditions:
+          resolved_by:
+            value_presence: PRESENT
+    - description: a decided item says what was decided
+      preconditions:
+        slot_conditions:
+          resolution:
+            equals_string: decided
+      postconditions:
+        slot_conditions:
+          assumption:
+            value_presence: PRESENT
+  Plumbing:
+    description: Lines that carry no behaviour a rebuild must keep, with what they are and why.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      category:
+        range: PlumbingCategory
+        required: true
+      paths:
+        multivalued: true
+        description: whole files, as paths or globs relative to the checkout
+      lines:
+        range: citation
+        multivalued: true
+        description: parts of files, as citations
+      reason:
+        required: true
+    rules:
+    - description: plumbing names files or lines
+      postconditions:
+        any_of:
+        - slot_conditions:
+            paths:
+              value_presence: PRESENT
+        - slot_conditions:
+            lines:
+              value_presence: PRESENT
+enums:
+  OpenReason:
+    permissible_values:
+      question: null
+      conflict: null
+      not_enforced: null
+      gap: null
+  Resolution:
+    permissible_values:
+      confirmed: null
+      corrected: null
+      decided: null
+      left_free: null
+      needs_decision: null
+      unresolved: null
+  PlumbingCategory:
+    permissible_values:
+      build: null
+      test: null
+      documentation: null
+      presentation: null
+      vendored: null
+      generated: null
+      tooling: null
+      dead: null

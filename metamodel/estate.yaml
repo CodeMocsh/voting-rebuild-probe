@@ -1,0 +1,111 @@
+id: urn:estate-graph:model
+name: estate_graph
+description: 'The concepts of an estate reading: state, actions and their parts, rules, calculations, capabilities, journeys
+  and cases.'
+prefixes:
+  linkml: https://w3id.org/linkml/
+  eg: 'urn:estate-graph:model:'
+imports:
+- linkml:types
+- modules/state
+- modules/actions
+- modules/rules
+- modules/capabilities
+- modules/cases
+- modules/open
+default_prefix: eg
+default_range: string
+classes:
+  EstateGraph:
+    tree_root: true
+    attributes:
+      estates:
+        range: Estate
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      types:
+        range: Type
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      attributes:
+        range: Attribute
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      inputs:
+        range: Input
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      actions:
+        range: Action
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      triggers:
+        range: Trigger
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      updates:
+        range: Update
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      transitions:
+        range: Transition
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      outputs:
+        range: Output
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      rules:
+        range: Rule
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      calculations:
+        range: Calculation
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      capabilities:
+        range: Capability
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      journeys:
+        range: Journey
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      journey_steps:
+        range: JourneyStep
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      cases:
+        range: Case
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      case_steps:
+        range: CaseStep
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      opens:
+        range: Open
+        required: true
+        multivalued: true
+        inlined_as_list: true
+      plumbing:
+        range: Plumbing
+        required: true
+        multivalued: true
+        inlined_as_list: true

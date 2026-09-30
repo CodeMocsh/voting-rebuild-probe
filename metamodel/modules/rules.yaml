@@ -1,0 +1,164 @@
+id: urn:estate-graph:model:rules
+name: estate_rules
+prefixes:
+  linkml: https://w3id.org/linkml/
+  eg: 'urn:estate-graph:model:'
+imports:
+- linkml:types
+- actions
+- capabilities
+- state
+default_prefix: eg
+default_range: string
+classes:
+  Rule:
+    description: 'Something always true that can be checked by looking: at the state (an invariant over attributes), or at
+      one run of one action (a check it makes first, or a quality of how it runs).'
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      statement:
+        required: true
+      kind:
+        range: RuleKind
+        required: true
+      attributes:
+        range: Attribute
+        inlined: false
+        multivalued: true
+      action:
+        range: Action
+        inlined: false
+      applies_to:
+        any_of:
+        - range: Action
+        - range: Capability
+        - range: Journey
+        inlined: false
+        multivalued: true
+        description: 'for a quality: what it governs'
+      characteristic:
+        range: Characteristic
+        description: 'for a quality: its ISO/IEC 25010 characteristic'
+      condition:
+        description: 'the condition in CEL over the estate: each type is a map from id to record named by its symbol, input.<field>
+          and out.<field>; see CEL.md; absent when only prose'
+      evidence:
+        range: citation
+        required: true
+        multivalued: true
+        minimum_cardinality: 1
+        description: 'where it is seen: a source, a path and a location'
+      protected_by:
+        range: Action
+        inverse: protects
+        inlined: false
+        multivalued: true
+    rules:
+    - description: a rule about the state names attributes and no action
+      preconditions:
+        slot_conditions:
+          kind:
+            equals_string: state
+      postconditions:
+        slot_conditions:
+          attributes:
+            value_presence: PRESENT
+          action:
+            value_presence: ABSENT
+    - description: a check names its action and no attributes
+      preconditions:
+        slot_conditions:
+          kind:
+            equals_string: check
+      postconditions:
+        slot_conditions:
+          action:
+            value_presence: PRESENT
+          attributes:
+            value_presence: ABSENT
+    - description: a quality names what it governs and its characteristic
+      preconditions:
+        slot_conditions:
+          kind:
+            equals_string: quality
+      postconditions:
+        slot_conditions:
+          applies_to:
+            value_presence: PRESENT
+          characteristic:
+            value_presence: PRESENT
+          action:
+            value_presence: ABSENT
+          attributes:
+            value_presence: ABSENT
+  Calculation:
+    description: One attribute computed from one or more attributes, of any types.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      name:
+        required: true
+      computes:
+        any_of:
+        - range: Attribute
+        - range: Output
+        inlined: false
+        description: 'what it computes: a stored attribute, or an output''s value'
+        required: true
+      description:
+        required: true
+        description: the calculation in words
+      expression:
+        description: 'the new value in CEL over the estate: each type is a map from id to record named by its symbol, input.<field>
+          and out.<field>; see CEL.md; absent when CEL cannot say it'
+      rounding: {}
+      evidence:
+        range: citation
+        required: true
+        multivalued: true
+        minimum_cardinality: 1
+        description: 'where it is seen: a source, a path and a location'
+      set_by:
+        range: Update
+        inverse: calculation
+        inlined: false
+        multivalued: true
+        description: the updates that store its value
+      sent_by:
+        range: Output
+        inverse: calculation
+        inlined: false
+        multivalued: true
+        description: the outputs that send its value
+    rules:
+    - description: a calculation is used
+      postconditions:
+        any_of:
+        - slot_conditions:
+            set_by:
+              value_presence: PRESENT
+        - slot_conditions:
+            sent_by:
+              value_presence: PRESENT
+enums:
+  RuleKind:
+    permissible_values:
+      state: null
+      check: null
+      quality: null
+  Characteristic:
+    permissible_values:
+      functional_suitability: null
+      performance_efficiency: null
+      compatibility: null
+      interaction_capability: null
+      reliability: null
+      security: null
+      maintainability: null
+      flexibility: null
+      safety: null

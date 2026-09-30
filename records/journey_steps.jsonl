@@ -1,0 +1,4 @@
+{"id":"urn:estate:voting-app:journey:vote-reaches-the-standing:step:1","action":"urn:estate:voting-app:action:show-ballot","journey":"urn:estate:voting-app:journey:vote-reaches-the-standing","link":"start","order":1}
+{"id":"urn:estate:voting-app:journey:vote-reaches-the-standing:step:2","action":"urn:estate:voting-app:action:cast-vote","journey":"urn:estate:voting-app:journey:vote-reaches-the-standing","link":"request","order":2}
+{"id":"urn:estate:voting-app:journey:vote-reaches-the-standing:step:3","action":"urn:estate:voting-app:action:watch-standing","journey":"urn:estate:voting-app:journey:vote-reaches-the-standing","link":"request","order":3}
+{"id":"urn:estate:voting-app:journey:vote-reaches-the-standing:step:4","action":"urn:estate:voting-app:action:publish-standing","journey":"urn:estate:voting-app:journey:vote-reaches-the-standing","link":"state","order":4,"state_attribute":"urn:estate:voting-app:type:vote:attribute:choice"}

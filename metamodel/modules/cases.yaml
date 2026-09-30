@@ -1,0 +1,98 @@
+id: urn:estate-graph:model:cases
+name: estate_cases
+prefixes:
+  linkml: https://w3id.org/linkml/
+  eg: 'urn:estate-graph:model:'
+imports:
+- linkml:types
+- actions
+- capabilities
+- rules
+default_prefix: eg
+default_range: string
+classes:
+  Case:
+    description: 'A concrete input and the output it must give: one step, or a sequence.'
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      name:
+        required: true
+      source:
+        range: CaseSource
+        required: true
+      cite:
+        range: citation
+        description: 'where the case is written down: a test in the checkout, or a recording'
+      covers:
+        any_of:
+        - range: Rule
+        - range: Calculation
+        - range: Action
+        - range: Journey
+        inlined: false
+        multivalued: true
+        description: what this case works out
+      spec:
+        any_of:
+        - range: Capability
+        - range: Journey
+        inlined: false
+        description: the leaf or journey whose specification shows it; derived from its steps when absent
+    rules:
+    - description: a test case cites where it is written
+      preconditions:
+        slot_conditions:
+          source:
+            equals_string: test
+      postconditions:
+        slot_conditions:
+          cite:
+            value_presence: PRESENT
+  CaseStep:
+    description: 'One step of a case: one action, the state before it, its inputs, and what must hold after.'
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      case:
+        range: Case
+        inlined: false
+        required: true
+      order:
+        range: integer
+        required: true
+      action:
+        range: Action
+        inlined: false
+        required: true
+      given:
+        description: the records that exist before the step, as a JSON object from type symbol to a map from id to record;
+          types it leaves out are empty
+      fault:
+        description: a dependency made unavailable for this step, named by what becomes unavailable in the subject matter,
+          e.g. the line of ballots is unreachable; each system's bindings say how to cause it
+      input:
+        description: the inputs, as a JSON object from input field to value
+      expect:
+        required: true
+        description: 'what holds after the step, in CEL over the estate: each type is a map from id to record named by its
+          symbol, input.<field> and out.<field>; see CEL.md; out.<field> is what the action sent'
+      note:
+        description: the concrete request or message, for a reader
+    unique_keys:
+      order_in_case:
+        unique_key_slots:
+        - case
+        - order
+enums:
+  CaseSource:
+    permissible_values:
+      test: null
+      recording: null
+      provided: null
+      probe: null
+      reading: null

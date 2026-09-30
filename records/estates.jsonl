@@ -1,0 +1,1 @@
+{"id":"urn:estate:voting-app:estate:voting-app","boundary":"A two-option poll: the ballot site where voters choose, the results site where anyone watches the standing, and everything between them that takes a vote in and counts it. Outside: the voters and watchers with their browsers, and the operator who names the two options when deploying.","name":"Example voting app"}

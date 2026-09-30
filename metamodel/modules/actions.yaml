@@ -1,0 +1,326 @@
+id: urn:estate-graph:model:actions
+name: estate_actions
+prefixes:
+  linkml: https://w3id.org/linkml/
+  eg: 'urn:estate-graph:model:'
+imports:
+- linkml:types
+- capabilities
+- cases
+- rules
+- state
+default_prefix: eg
+default_range: string
+classes:
+  Input:
+    description: A named value an action is triggered with.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      action:
+        range: Action
+        inlined: false
+        required: true
+      name:
+        required: true
+      field:
+        required: true
+        description: 'its field name in CEL: input.<field>'
+      definition:
+        required: true
+      value_type:
+        range: ValueType
+        required: true
+      values:
+        multivalued: true
+      optional:
+        range: boolean
+        required: true
+        description: whether a trigger may leave it out
+      evidence:
+        range: citation
+        required: true
+        multivalued: true
+        minimum_cardinality: 1
+        description: 'where it is seen: a source, a path and a location'
+    unique_keys:
+      action_and_field:
+        unique_key_slots:
+        - action
+        - field
+  Action:
+    description: 'The unit of behaviour: triggered from outside the estate with inputs, it changes state, produces outputs,
+      or both.'
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      name:
+        required: true
+      definition:
+        required: true
+      reads:
+        range: Attribute
+        inlined: false
+        multivalued: true
+      creates:
+        range: Type
+        inlined: false
+        multivalued: true
+      ends:
+        range: Type
+        inlined: false
+        multivalued: true
+      protects:
+        range: Rule
+        inlined: false
+        multivalued: true
+        description: rules about the state this action makes sure hold; a rule about an action is protected by that action,
+          derived
+      evidence:
+        range: citation
+        required: true
+        multivalued: true
+        minimum_cardinality: 1
+        description: 'where it is seen: a source, a path and a location'
+      triggers:
+        range: Trigger
+        inverse: action
+        inlined: false
+        multivalued: true
+        required: true
+        minimum_cardinality: 1
+        description: who or what starts it
+      inputs:
+        range: Input
+        inverse: action
+        inlined: false
+        multivalued: true
+      updates:
+        range: Update
+        inverse: action
+        inlined: false
+        multivalued: true
+      transitions:
+        range: Transition
+        inverse: action
+        inlined: false
+        multivalued: true
+      outputs:
+        range: Output
+        inverse: action
+        inlined: false
+        multivalued: true
+      leaves:
+        range: Capability
+        inverse: actions
+        inlined: false
+        multivalued: true
+        required: true
+        minimum_cardinality: 1
+        description: the leaf capabilities it sits in
+      covered_by:
+        range: Case
+        inverse: covers
+        inlined: false
+        multivalued: true
+      stepped_in:
+        range: CaseStep
+        inverse: action
+        inlined: false
+        multivalued: true
+    rules:
+    - description: an action changes state, produces an output, or both
+      postconditions:
+        any_of:
+        - slot_conditions:
+            updates:
+              value_presence: PRESENT
+        - slot_conditions:
+            transitions:
+              value_presence: PRESENT
+        - slot_conditions:
+            outputs:
+              value_presence: PRESENT
+        - slot_conditions:
+            creates:
+              value_presence: PRESENT
+        - slot_conditions:
+            ends:
+              value_presence: PRESENT
+  Trigger:
+    description: Who or what starts an action from outside the estate, and the entry point it arrives through.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      action:
+        range: Action
+        inlined: false
+        required: true
+      kind:
+        range: TriggerKind
+        required: true
+      who:
+        required: true
+      via:
+        required: true
+      kept:
+        range: boolean
+        required: true
+        description: something outside the estate relies on this entry point's exact form
+      evidence:
+        range: citation
+        multivalued: true
+  Update:
+    description: 'A part of an action: a new value for an attribute, from a calculation or straight from an input.'
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      action:
+        range: Action
+        inlined: false
+        required: true
+      attribute:
+        range: Attribute
+        inlined: false
+        required: true
+      calculation:
+        range: Calculation
+        inlined: false
+      when:
+        description: 'the condition under which it happens, in CEL over the estate: each type is a map from id to record named
+          by its symbol, input.<field> and out.<field>; see CEL.md; absent if always'
+      serves:
+        range: Capability
+        inlined: false
+        description: the leaf it serves, when the action is in several
+    annotations:
+      invariants:
+        value:
+          serves_one_of_its_leaves: this.serves == null || this.serves in Action[this.action].leaves
+  Transition:
+    description: 'A part of an action: a fixed-value attribute moving between values; from absent means created, to absent
+      means removed.'
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      action:
+        range: Action
+        inlined: false
+        required: true
+      attribute:
+        range: Attribute
+        inlined: false
+        required: true
+      from_value: {}
+      to_value: {}
+      when:
+        description: 'the condition, in CEL over the estate: each type is a map from id to record named by its symbol, input.<field>
+          and out.<field>; see CEL.md; absent if always'
+      serves:
+        range: Capability
+        inlined: false
+      evidence:
+        range: citation
+        required: true
+        multivalued: true
+        minimum_cardinality: 1
+        description: 'where it is seen: a source, a path and a location'
+    annotations:
+      invariants:
+        value:
+          from_is_a_value: this.from_value == null || this.from_value in Attribute[this.attribute].values
+          to_is_a_value: this.to_value == null || this.to_value in Attribute[this.attribute].values
+          serves_one_of_its_leaves: this.serves == null || this.serves in Action[this.action].leaves
+  Output:
+    description: 'A part of an action: what it sends out; a refusal and a query''s result are outputs.'
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      action:
+        range: Action
+        inlined: false
+        required: true
+      field:
+        required: true
+        description: 'its name in CEL: out.<field>'
+      kind:
+        range: OutputKind
+        required: true
+      to:
+        required: true
+      channel:
+        description: the queue, list, topic, event or route an event or call goes to
+      description:
+        required: true
+      serves:
+        range: Capability
+        inlined: false
+      calculation:
+        range: Calculation
+        inlined: false
+        description: the calculation that gives the value it sends, when one does
+      kept:
+        range: boolean
+        required: true
+        description: something outside the estate relies on this output's exact form
+      evidence:
+        range: citation
+        required: true
+        multivalued: true
+        minimum_cardinality: 1
+        description: 'where it is seen: a source, a path and a location'
+    annotations:
+      invariants:
+        value:
+          serves_one_of_its_leaves: this.serves == null || this.serves in Action[this.action].leaves
+    rules:
+    - description: an event names its channel
+      preconditions:
+        slot_conditions:
+          kind:
+            equals_string: event
+      postconditions:
+        slot_conditions:
+          channel:
+            value_presence: PRESENT
+    - description: a call names its channel
+      preconditions:
+        slot_conditions:
+          kind:
+            equals_string: call
+      postconditions:
+        slot_conditions:
+          channel:
+            value_presence: PRESENT
+    unique_keys:
+      action_and_field:
+        unique_key_slots:
+        - action
+        - field
+enums:
+  TriggerKind:
+    permissible_values:
+      actor: null
+      clock: null
+      system: null
+  OutputKind:
+    permissible_values:
+      result: null
+      refusal: null
+      email: null
+      event: null
+      call: null
+      file: null
+      log: null

@@ -1,0 +1,113 @@
+id: urn:estate-graph:model:state
+name: estate_state
+prefixes:
+  linkml: https://w3id.org/linkml/
+  eg: 'urn:estate-graph:model:'
+imports:
+- linkml:types
+default_prefix: eg
+default_range: string
+classes:
+  Estate:
+    description: 'The system read: state plus actions inside a declared boundary.'
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      name:
+        required: true
+      boundary:
+        required: true
+  Type:
+    description: A thing the business keeps track of.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      name:
+        required: true
+      symbol:
+        required: true
+        description: 'its name in CEL, PascalCase: the map from id to record'
+      definition:
+        required: true
+      evidence:
+        range: citation
+        required: true
+        multivalued: true
+        minimum_cardinality: 1
+        description: 'where it is seen: a source, a path and a location'
+    unique_keys:
+      symbol:
+        unique_key_slots:
+        - symbol
+  Attribute:
+    description: One field of a type; values lists the fixed values it can take, empty when open.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      type:
+        range: Type
+        inlined: false
+        required: true
+      name:
+        required: true
+      field:
+        required: true
+        description: its field name in CEL, snake_case
+      definition:
+        required: true
+      value_type:
+        range: ValueType
+        required: true
+      references:
+        range: Type
+        inlined: false
+        description: for a reference, the type whose id it holds
+      values:
+        multivalued: true
+      optional:
+        range: boolean
+        required: true
+        description: whether a record may lack it; CEL reads it only under has()
+      evidence:
+        range: citation
+        required: true
+        multivalued: true
+        minimum_cardinality: 1
+        description: 'where it is seen: a source, a path and a location'
+    rules:
+    - description: a reference names the type it points at
+      preconditions:
+        slot_conditions:
+          value_type:
+            equals_string: reference
+      postconditions:
+        slot_conditions:
+          references:
+            value_presence: PRESENT
+    unique_keys:
+      type_and_name:
+        unique_key_slots:
+        - type
+        - name
+      type_and_field:
+        unique_key_slots:
+        - type
+        - field
+enums:
+  ValueType:
+    permissible_values:
+      text: null
+      integer: null
+      double: null
+      boolean: null
+      reference: null
+      list: null
+      decimal: null
+      date: null
+      datetime: null

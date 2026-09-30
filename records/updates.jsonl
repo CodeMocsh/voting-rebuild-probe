@@ -1,0 +1,1 @@
+{"id":"urn:estate:voting-app:action:cast-vote:update:choice","action":"urn:estate:voting-app:action:cast-vote","attribute":"urn:estate:voting-app:type:vote:attribute:choice","when":"input.choice != null && size(input.choice) <= 255 && (input.voter_id == null || size(input.voter_id) <= 255)"}

@@ -1,0 +1,180 @@
+id: urn:estate-graph:model:capabilities
+name: estate_capabilities
+prefixes:
+  linkml: https://w3id.org/linkml/
+  eg: 'urn:estate-graph:model:'
+imports:
+- linkml:types
+- actions
+- state
+default_prefix: eg
+default_range: string
+classes:
+  Capability:
+    description: A set of actions named for the outcome they produce; a node holds children or actions, never both.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      name:
+        required: true
+      outcome:
+        required: true
+      children:
+        range: Capability
+        inlined: false
+        multivalued: true
+      actions:
+        range: Action
+        inlined: false
+        multivalued: true
+      serves:
+        range: Serves
+        required: true
+        description: 'who gets the outcome: the estate''s users, or the estate itself'
+      parents:
+        range: Capability
+        inverse: children
+        inlined: false
+        multivalued: true
+        description: the node it sits under; a root has none
+        maximum_cardinality: 1
+    rules:
+    - description: a node with children holds no actions
+      preconditions:
+        slot_conditions:
+          children:
+            value_presence: PRESENT
+      postconditions:
+        slot_conditions:
+          actions:
+            value_presence: ABSENT
+    - description: a leaf holds actions
+      preconditions:
+        slot_conditions:
+          children:
+            value_presence: ABSENT
+      postconditions:
+        slot_conditions:
+          actions:
+            value_presence: PRESENT
+  Journey:
+    description: Actions in the order they happen across capabilities, from a trigger to an outcome.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      name:
+        required: true
+      trigger:
+        required: true
+      outcome:
+        required: true
+      steps:
+        range: JourneyStep
+        inverse: journey
+        inlined: false
+        multivalued: true
+        required: true
+        minimum_cardinality: 1
+        description: its steps
+  JourneyStep:
+    description: One step of a journey, linked to the steps before it.
+    attributes:
+      id:
+        range: uriorcurie
+        identifier: true
+        required: true
+      journey:
+        range: Journey
+        inlined: false
+        required: true
+      order:
+        range: integer
+        required: true
+      action:
+        range: Action
+        inlined: false
+        required: true
+      link:
+        range: LinkKind
+        required: true
+      via:
+        description: for a call or a message, the channel an earlier step's output names
+      state_attribute:
+        range: Attribute
+        inlined: false
+        description: for a state link, the attribute an earlier step leaves
+      state_value:
+        description: for a state link on a fixed-value attribute, the value it must be left at
+    annotations:
+      invariants:
+        value:
+          a_message_comes_from_an_earlier_event: this.link != 'message' || Journey[this.journey].steps.exists(s, JourneyStep[s].order
+            < this.order && Action[JourneyStep[s].action].outputs.exists(o, Output[o].kind == 'event' && Output[o].channel
+            == this.via))
+          a_state_is_left_by_an_earlier_step: this.link != 'state' || Journey[this.journey].steps.exists(s, JourneyStep[s].order
+            < this.order && (Action[JourneyStep[s].action].updates.exists(u, Update[u].attribute == this.state_attribute)
+            || Action[JourneyStep[s].action].transitions.exists(t, Transition[t].attribute == this.state_attribute && (this.state_value
+            == null || Transition[t].to_value == this.state_value))))
+          a_call_comes_from_an_earlier_call: this.link != 'call' || Journey[this.journey].steps.exists(s, JourneyStep[s].order
+            < this.order && Action[JourneyStep[s].action].outputs.exists(o, Output[o].kind == 'call' && Output[o].channel
+            == this.via))
+    rules:
+    - description: the first step is the start
+      preconditions:
+        slot_conditions:
+          order:
+            equals_number: 1
+      postconditions:
+        slot_conditions:
+          link:
+            equals_string: start
+    - description: a message names its channel
+      preconditions:
+        slot_conditions:
+          link:
+            equals_string: message
+      postconditions:
+        slot_conditions:
+          via:
+            value_presence: PRESENT
+    - description: a call names its channel
+      preconditions:
+        slot_conditions:
+          link:
+            equals_string: call
+      postconditions:
+        slot_conditions:
+          via:
+            value_presence: PRESENT
+    - description: a state link names the attribute it waits for
+      preconditions:
+        slot_conditions:
+          link:
+            equals_string: state
+      postconditions:
+        slot_conditions:
+          state_attribute:
+            value_presence: PRESENT
+          via:
+            value_presence: ABSENT
+    unique_keys:
+      order_in_journey:
+        unique_key_slots:
+        - journey
+        - order
+enums:
+  Serves:
+    permissible_values:
+      users: null
+      estate: null
+  LinkKind:
+    permissible_values:
+      start: null
+      request: null
+      call: null
+      message: null
+      state: null
