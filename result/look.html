@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Look: result</title>
+    <link rel="stylesheet" href="views/stylesheets/style.css" />
+    <style>
+      body{opacity:1}
+      [data-specimen]{position:relative;overflow:hidden;width:720px;height:300px}
+      [data-specimen="results"]{height:540px}
+      [data-specimen^="total"]{height:160px}
+    </style>
+  </head>
+  <body>
+    <nav>
+      result/look.html, links views/stylesheets/style.css only.
+      <a href="../vote/look.html">vote/look.html</a>
+    </nav>
+
+    <figure>
+      <div data-specimen="results">
+        <div id="background-stats">
+          <div id="background-stats-1">
+          </div><!--
+         --><div id="background-stats-2">
+          </div>
+        </div>
+        <div id="content-container">
+          <div id="content-container-center">
+            <div id="choice">
+              <div class="choice cats">
+                <div class="label">Cats</div>
+                <div class="stat">50.0%</div>
+              </div>
+              <div class="divider"></div>
+              <div class="choice dogs">
+                <div class="label">Dogs</div>
+                <div class="stat">50.0%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="result">
+          <span>No votes yet</span>
+        </div>
+      </div>
+      <figcaption>results: the whole screen before the first vote</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="background-split">
+        <div id="background-stats">
+          <div id="background-stats-1" style="width: 70%;">
+          </div><!--
+         --><div id="background-stats-2" style="width: 30%;">
+          </div>
+        </div>
+      </div>
+      <figcaption>background-split at 70 / 30</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="score-card">
+        <div id="background-stats">
+          <div id="background-stats-1" style="width: 70%;">
+          </div><!--
+         --><div id="background-stats-2" style="width: 30%;">
+          </div>
+        </div>
+        <div id="content-container">
+          <div id="content-container-center">
+            <div id="choice">
+              <div class="choice cats">
+                <div class="label">Cats</div>
+                <div class="stat">70.0%</div>
+              </div>
+              <div class="divider"></div>
+              <div class="choice dogs">
+                <div class="label">Dogs</div>
+                <div class="stat">30.0%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>score-card with divider</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="total-none">
+        <div id="background-stats">
+          <div id="background-stats-1">
+          </div><!--
+         --><div id="background-stats-2">
+          </div>
+        </div>
+        <div id="result">
+          <span>No votes yet</span>
+        </div>
+      </div>
+      <figcaption>total-none</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="total-one">
+        <div id="background-stats">
+          <div id="background-stats-1" style="width: 100%;">
+          </div><!--
+         --><div id="background-stats-2" style="width: 0%;">
+          </div>
+        </div>
+        <div id="result">
+          <span>1 vote</span>
+        </div>
+      </div>
+      <figcaption>total-one</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="total-many">
+        <div id="background-stats">
+          <div id="background-stats-1" style="width: 70%;">
+          </div><!--
+         --><div id="background-stats-2" style="width: 30%;">
+          </div>
+        </div>
+        <div id="result">
+          <span>10 votes</span>
+        </div>
+      </div>
+      <figcaption>total-many</figcaption>
+    </figure>
+  </body>
+</html>

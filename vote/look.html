@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Look: vote</title>
+    <link rel="stylesheet" href="static/stylesheets/style.css" />
+    <style>
+      [data-specimen]{position:relative;overflow:hidden;width:360px;height:120px}
+      [data-specimen="ballot"]{width:720px;height:540px}
+      [data-specimen="heading"]{height:80px}
+      [data-specimen^="voted"]{height:220px}
+      [data-specimen="tip"]{height:60px}
+      [data-specimen="hostname"]{width:720px;height:200px}
+    </style>
+  </head>
+  <body>
+    <nav>
+      vote/look.html, links static/stylesheets/style.css only.
+      <a href="../result/look.html">result/look.html</a>
+    </nav>
+
+    <figure>
+      <div data-specimen="ballot">
+        <div id="content-container">
+          <div id="content-container-center">
+            <h3>Cats vs Dogs!</h3>
+            <form id="choice" name="form">
+              <button id="a" type="submit" name="vote" class="a" value="a">Cats</button>
+              <button id="b" type="submit" name="vote" class="b" value="b">Dogs</button>
+            </form>
+            <div id="tip">
+              (Tip: you can change your vote)
+            </div>
+            <div id="hostname">
+              Processed by container ID 7f3c2a9e1b4d
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>ballot: the whole screen, no vote yet</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="heading">
+        <div id="content-container">
+          <div id="content-container-center">
+            <h3>Cats vs Dogs!</h3>
+          </div>
+        </div>
+      </div>
+      <figcaption>heading</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="option-a">
+        <div id="content-container">
+          <div id="content-container-center">
+            <form id="choice" name="form">
+              <button type="submit" name="vote" class="a" value="a">Cats</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <figcaption>option-a</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="option-a-hover" data-state="hover">
+        <div id="content-container">
+          <div id="content-container-center">
+            <form id="choice" name="form">
+              <button type="submit" name="vote" class="a" value="a">Cats</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <figcaption>option-a, hover and focus</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="option-b">
+        <div id="content-container">
+          <div id="content-container-center">
+            <form id="choice" name="form">
+              <button type="submit" name="vote" class="b" value="b">Dogs</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <figcaption>option-b</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="option-b-hover" data-state="hover">
+        <div id="content-container">
+          <div id="content-container-center">
+            <form id="choice" name="form">
+              <button type="submit" name="vote" class="b" value="b">Dogs</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <figcaption>option-b, hover and focus</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="voted-a">
+        <div id="content-container">
+          <div id="content-container-center">
+            <form id="choice" name="form">
+              <button type="submit" name="vote" class="a" value="a" disabled>Cats <i class="fa fa-check-circle"></i></button>
+              <button type="submit" name="vote" class="b" value="b" style="opacity: 0.5;">Dogs</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <figcaption>voted-a: chosen option disabled with the tick, the other at half opacity</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="voted-b">
+        <div id="content-container">
+          <div id="content-container-center">
+            <form id="choice" name="form">
+              <button type="submit" name="vote" class="a" value="a" style="opacity: 0.5;">Cats</button>
+              <button type="submit" name="vote" class="b" value="b" disabled>Dogs <i class="fa fa-check-circle"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <figcaption>voted-b</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="tip">
+        <div id="content-container">
+          <div id="content-container-center">
+            <div id="tip">
+              (Tip: you can change your vote)
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>tip</figcaption>
+    </figure>
+
+    <figure>
+      <div data-specimen="hostname">
+        <div id="content-container">
+          <div id="content-container-center">
+            <div id="hostname">
+              Processed by container ID 7f3c2a9e1b4d
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>hostname</figcaption>
+    </figure>
+  </body>
+</html>
