@@ -1,0 +1,53 @@
+{
+ "cases": [
+  {
+   "key": "cast-first",
+   "name": "First vote recorded",
+   "steps": [
+    {
+     "action": "cast-vote",
+     "fault": null,
+     "given": {},
+     "input": {
+      "vote": "a",
+      "voter_id": "v1"
+     }
+    }
+   ]
+  },
+  {
+   "key": "cast-replace",
+   "name": "Later vote replaces earlier",
+   "steps": [
+    {
+     "action": "cast-vote",
+     "fault": null,
+     "given": {
+      "Vote": {
+       "v1": {
+        "choice": "a",
+        "voter": "v1"
+       }
+      }
+     },
+     "input": {
+      "vote": "b",
+      "voter_id": "v1"
+     }
+    }
+   ]
+  },
+  {
+   "key": "show-ballot-new",
+   "name": "New visitor sees ballot",
+   "steps": [
+    {
+     "action": "show-ballot",
+     "fault": null,
+     "given": {},
+     "input": {}
+    }
+   ]
+  }
+ ]
+}
