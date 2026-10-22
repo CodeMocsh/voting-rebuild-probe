@@ -1,0 +1,114 @@
+{
+ "cases": [
+  {
+   "key": "view-ballot.returning-voter",
+   "name": "A returning voter keeps the voter number and sees the operator's option names, with no vote recorded",
+   "steps": [
+    {
+     "action": "view-ballot",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Tea"
+       },
+       "b": {
+        "code": "b",
+        "name": "Coffee"
+       }
+      },
+      "Vote": {
+       "v1": {
+        "option": "a",
+        "voter_id": "abc123"
+       }
+      }
+     },
+     "input": {
+      "voter_id": "abc123"
+     }
+    }
+   ]
+  },
+  {
+   "key": "view-ballot.store-unreachable",
+   "name": "The ballot is shown while the line of votes is unreachable",
+   "steps": [
+    {
+     "action": "view-ballot",
+     "fault": "the line of votes is unreachable",
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      }
+     },
+     "input": {
+      "voter_id": "abc123"
+     }
+    }
+   ]
+  },
+  {
+   "key": "view-ballot.first-visit",
+   "name": "A first-time voter sees the default ballot and is given a voter number",
+   "steps": [
+    {
+     "action": "view-ballot",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      }
+     },
+     "input": {}
+    }
+   ]
+  },
+  {
+   "key": "probe/view-ballot.existing-voter-number-kept",
+   "name": "An input that breaks view-ballot.existing-voter-number-kept",
+   "steps": [
+    {
+     "action": "view-ballot",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Tea"
+       },
+       "b": {
+        "code": "b",
+        "name": "Coffee"
+       }
+      },
+      "Vote": {
+       "v1": {
+        "option": "a",
+        "voter_id": "abc123"
+       }
+      }
+     },
+     "input": {
+      "voter_id": null
+     }
+    }
+   ]
+  }
+ ]
+}
