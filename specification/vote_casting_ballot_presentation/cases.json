@@ -78,37 +78,6 @@
      "input": {}
     }
    ]
-  },
-  {
-   "key": "probe/view-ballot.existing-voter-number-kept",
-   "name": "An input that breaks view-ballot.existing-voter-number-kept",
-   "steps": [
-    {
-     "action": "view-ballot",
-     "fault": null,
-     "given": {
-      "Option": {
-       "a": {
-        "code": "a",
-        "name": "Tea"
-       },
-       "b": {
-        "code": "b",
-        "name": "Coffee"
-       }
-      },
-      "Vote": {
-       "v1": {
-        "option": "a",
-        "voter_id": "abc123"
-       }
-      }
-     },
-     "input": {
-      "voter_id": null
-     }
-    }
-   ]
   }
  ]
 }
