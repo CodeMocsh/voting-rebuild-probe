@@ -1,0 +1,128 @@
+{
+ "cases": [
+  {
+   "key": "record-option-names.defaults",
+   "name": "With neither variable set the options are named Cats and Dogs",
+   "steps": [
+    {
+     "action": "record-option-names",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      }
+     },
+     "input": {}
+    }
+   ]
+  },
+  {
+   "key": "record-option-names.both-set",
+   "name": "Both variables set name the two options",
+   "steps": [
+    {
+     "action": "record-option-names",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      }
+     },
+     "input": {
+      "option_a": "Tea",
+      "option_b": "Coffee"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-option-names.one-set",
+   "name": "Only OPTION_B set leaves option a at its default",
+   "steps": [
+    {
+     "action": "record-option-names",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      }
+     },
+     "input": {
+      "option_b": "Coffee"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-option-names.empty-value",
+   "name": "A variable set to an empty value gives an empty name, not the default",
+   "steps": [
+    {
+     "action": "record-option-names",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      }
+     },
+     "input": {
+      "option_a": ""
+     }
+    }
+   ]
+  },
+  {
+   "key": "probe/record-option-names.set-name-used-as-is",
+   "name": "An input that breaks record-option-names.set-name-used-as-is",
+   "steps": [
+    {
+     "action": "record-option-names",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      }
+     },
+     "input": {
+      "option_a": ""
+     }
+    }
+   ]
+  }
+ ]
+}
