@@ -59,7 +59,7 @@ async function run({ votes, unreachable }) {
     if (!(error instanceof Stop)) throw error;
   }
   scoresSent.forEach(([event, payload]) => {
-    out.scores = payload;
+    out.scores = typeof payload === "string" ? JSON.parse(payload) : payload;
     page.receive(event, payload);
   });
   out.a_percent = page.scope.aPercent;
