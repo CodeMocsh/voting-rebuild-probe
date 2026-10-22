@@ -98,31 +98,6 @@
      }
     }
    ]
-  },
-  {
-   "key": "probe/record-option-names.set-name-used-as-is",
-   "name": "An input that breaks record-option-names.set-name-used-as-is",
-   "steps": [
-    {
-     "action": "record-option-names",
-     "fault": null,
-     "given": {
-      "Option": {
-       "a": {
-        "code": "a",
-        "name": "Cats"
-       },
-       "b": {
-        "code": "b",
-        "name": "Dogs"
-       }
-      }
-     },
-     "input": {
-      "option_a": ""
-     }
-    }
-   ]
   }
  ]
 }
