@@ -1,0 +1,204 @@
+{
+ "cases": [
+  {
+   "key": "record-vote.one-vote-for-b",
+   "name": "One vote for b is recorded and counted",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {},
+     "input": {
+      "vote": "b"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-vote.new-voter-a",
+   "name": "A browser without a voter number votes a",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {},
+     "input": {
+      "vote": "a"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-vote.returning-voter-changes",
+   "name": "A voter who voted a changes to b",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {
+      "Vote": {
+       "v1": {
+        "option": "a",
+        "voter_id": "abc123"
+       }
+      }
+     },
+     "input": {
+      "vote": "b",
+      "voter_id": "abc123"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-vote.cookie-voter-first-vote",
+   "name": "A browser with a voter number but no vote votes b",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {
+      "Vote": {
+       "v1": {
+        "option": "a",
+        "voter_id": "other"
+       }
+      }
+     },
+     "input": {
+      "vote": "b",
+      "voter_id": "abc123"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-vote.missing-choice",
+   "name": "A submission without a chosen option is refused",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {
+      "Vote": {
+       "v1": {
+        "option": "a",
+        "voter_id": "abc123"
+       }
+      }
+     },
+     "input": {
+      "vote": null,
+      "voter_id": "abc123"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-vote.line-unreachable",
+   "name": "The line of cast votes is unreachable",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": "the line of cast votes is unreachable",
+     "given": {
+      "Vote": {
+       "v1": {
+        "option": "a",
+        "voter_id": "abc123"
+       }
+      }
+     },
+     "input": {
+      "vote": "b",
+      "voter_id": "abc123"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-vote.two-votes-in-order",
+   "name": "Two quick votes from one voter leave the later",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {},
+     "input": {
+      "vote": "a",
+      "voter_id": "abc123"
+     }
+    },
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {},
+     "input": {
+      "vote": "b",
+      "voter_id": "abc123"
+     }
+    }
+   ]
+  },
+  {
+   "key": "record-vote.unknown-choice",
+   "name": "A submission for an option other than a or b is refused",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      },
+      "Vote": {
+       "v1": {
+        "option": "a",
+        "voter_id": "abc123"
+       }
+      }
+     },
+     "input": {
+      "vote": "c",
+      "voter_id": "abc123"
+     }
+    }
+   ]
+  },
+  {
+   "key": "probe/record-vote.choice-required",
+   "name": "An input that breaks record-vote.choice-required",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {},
+     "input": {
+      "vote": null
+     }
+    }
+   ]
+  },
+  {
+   "key": "probe/record-vote.choice-is-a-or-b",
+   "name": "An input that breaks record-vote.choice-is-a-or-b",
+   "steps": [
+    {
+     "action": "record-vote",
+     "fault": null,
+     "given": {},
+     "input": {
+      "vote": ""
+     }
+    }
+   ]
+  }
+ ]
+}
