@@ -1,0 +1,410 @@
+{
+ "cases": [
+  {
+   "key": "view-result.one-vote-shown",
+   "name": "One vote for b is shown as a total of one vote",
+   "steps": [
+    {
+     "action": "view-result",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      },
+      "Vote": {
+       "vb0": {
+        "option": "b",
+        "voter_id": "vb0"
+       }
+      }
+     },
+     "input": {}
+    }
+   ]
+  },
+  {
+   "key": "view-result.no-votes",
+   "name": "With no votes the shares are 50/50 and the total is 0",
+   "steps": [
+    {
+     "action": "view-result",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      },
+      "Vote": {}
+     },
+     "input": {}
+    }
+   ]
+  },
+  {
+   "key": "view-result.two-to-one",
+   "name": "Two votes for a and one for b give 67 and 33 percent",
+   "steps": [
+    {
+     "action": "view-result",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      },
+      "Vote": {
+       "va0": {
+        "option": "a",
+        "voter_id": "va0"
+       },
+       "va1": {
+        "option": "a",
+        "voter_id": "va1"
+       },
+       "vb0": {
+        "option": "b",
+        "voter_id": "vb0"
+       }
+      }
+     },
+     "input": {}
+    }
+   ]
+  },
+  {
+   "key": "view-result.half-rounds-up",
+   "name": "A share of exactly 12.5 percent rounds up to 13, leaving 87",
+   "steps": [
+    {
+     "action": "view-result",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      },
+      "Vote": {
+       "va0": {
+        "option": "a",
+        "voter_id": "va0"
+       },
+       "vb0": {
+        "option": "b",
+        "voter_id": "vb0"
+       },
+       "vb1": {
+        "option": "b",
+        "voter_id": "vb1"
+       },
+       "vb2": {
+        "option": "b",
+        "voter_id": "vb2"
+       },
+       "vb3": {
+        "option": "b",
+        "voter_id": "vb3"
+       },
+       "vb4": {
+        "option": "b",
+        "voter_id": "vb4"
+       },
+       "vb5": {
+        "option": "b",
+        "voter_id": "vb5"
+       },
+       "vb6": {
+        "option": "b",
+        "voter_id": "vb6"
+       }
+      }
+     },
+     "input": {}
+    }
+   ]
+  },
+  {
+   "key": "view-result.only-b",
+   "name": "Votes only for b give a 0 percent and b 100 percent, with a counted as 0",
+   "steps": [
+    {
+     "action": "view-result",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      },
+      "Vote": {
+       "vb0": {
+        "option": "b",
+        "voter_id": "vb0"
+       },
+       "vb1": {
+        "option": "b",
+        "voter_id": "vb1"
+       },
+       "vb2": {
+        "option": "b",
+        "voter_id": "vb2"
+       }
+      }
+     },
+     "input": {}
+    }
+   ]
+  },
+  {
+   "key": "view-result.database-unreachable",
+   "name": "With the votes database unreachable no scores are sent and the page keeps 50/50",
+   "steps": [
+    {
+     "action": "view-result",
+     "fault": "the votes are unreachable",
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      },
+      "Vote": {
+       "va0": {
+        "option": "a",
+        "voter_id": "va0"
+       },
+       "va1": {
+        "option": "a",
+        "voter_id": "va1"
+       },
+       "vb0": {
+        "option": "b",
+        "voter_id": "vb0"
+       }
+      }
+     },
+     "input": {}
+    }
+   ]
+  },
+  {
+   "key": "view-result.float-half-rounds-down",
+   "name": "23 votes for a and 17 for b show 57 and 43 percent, because the floating-point share 57.49999\u2026 rounds down",
+   "steps": [
+    {
+     "action": "view-result",
+     "fault": null,
+     "given": {
+      "Option": {
+       "a": {
+        "code": "a",
+        "name": "Cats"
+       },
+       "b": {
+        "code": "b",
+        "name": "Dogs"
+       }
+      },
+      "Vote": {
+       "va0": {
+        "option": "a",
+        "voter_id": "va0"
+       },
+       "va1": {
+        "option": "a",
+        "voter_id": "va1"
+       },
+       "va10": {
+        "option": "a",
+        "voter_id": "va10"
+       },
+       "va11": {
+        "option": "a",
+        "voter_id": "va11"
+       },
+       "va12": {
+        "option": "a",
+        "voter_id": "va12"
+       },
+       "va13": {
+        "option": "a",
+        "voter_id": "va13"
+       },
+       "va14": {
+        "option": "a",
+        "voter_id": "va14"
+       },
+       "va15": {
+        "option": "a",
+        "voter_id": "va15"
+       },
+       "va16": {
+        "option": "a",
+        "voter_id": "va16"
+       },
+       "va17": {
+        "option": "a",
+        "voter_id": "va17"
+       },
+       "va18": {
+        "option": "a",
+        "voter_id": "va18"
+       },
+       "va19": {
+        "option": "a",
+        "voter_id": "va19"
+       },
+       "va2": {
+        "option": "a",
+        "voter_id": "va2"
+       },
+       "va20": {
+        "option": "a",
+        "voter_id": "va20"
+       },
+       "va21": {
+        "option": "a",
+        "voter_id": "va21"
+       },
+       "va22": {
+        "option": "a",
+        "voter_id": "va22"
+       },
+       "va3": {
+        "option": "a",
+        "voter_id": "va3"
+       },
+       "va4": {
+        "option": "a",
+        "voter_id": "va4"
+       },
+       "va5": {
+        "option": "a",
+        "voter_id": "va5"
+       },
+       "va6": {
+        "option": "a",
+        "voter_id": "va6"
+       },
+       "va7": {
+        "option": "a",
+        "voter_id": "va7"
+       },
+       "va8": {
+        "option": "a",
+        "voter_id": "va8"
+       },
+       "va9": {
+        "option": "a",
+        "voter_id": "va9"
+       },
+       "vb0": {
+        "option": "b",
+        "voter_id": "vb0"
+       },
+       "vb1": {
+        "option": "b",
+        "voter_id": "vb1"
+       },
+       "vb10": {
+        "option": "b",
+        "voter_id": "vb10"
+       },
+       "vb11": {
+        "option": "b",
+        "voter_id": "vb11"
+       },
+       "vb12": {
+        "option": "b",
+        "voter_id": "vb12"
+       },
+       "vb13": {
+        "option": "b",
+        "voter_id": "vb13"
+       },
+       "vb14": {
+        "option": "b",
+        "voter_id": "vb14"
+       },
+       "vb15": {
+        "option": "b",
+        "voter_id": "vb15"
+       },
+       "vb16": {
+        "option": "b",
+        "voter_id": "vb16"
+       },
+       "vb2": {
+        "option": "b",
+        "voter_id": "vb2"
+       },
+       "vb3": {
+        "option": "b",
+        "voter_id": "vb3"
+       },
+       "vb4": {
+        "option": "b",
+        "voter_id": "vb4"
+       },
+       "vb5": {
+        "option": "b",
+        "voter_id": "vb5"
+       },
+       "vb6": {
+        "option": "b",
+        "voter_id": "vb6"
+       },
+       "vb7": {
+        "option": "b",
+        "voter_id": "vb7"
+       },
+       "vb8": {
+        "option": "b",
+        "voter_id": "vb8"
+       },
+       "vb9": {
+        "option": "b",
+        "voter_id": "vb9"
+       }
+      }
+     },
+     "input": {}
+    }
+   ]
+  }
+ ]
+}
